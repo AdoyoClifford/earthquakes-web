@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Jinja Template with Bootstrap Table</title>
+    <style>
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+        }
+        .container {
+            padding-top: 20px;
+        }
+        .body {
+            padding: 24px;
+        }
+    </style>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<nav class="bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo or site name -->
+            <div class="flex items-center">
+                <a href="#" class="text-white text-xl font-bold">
+                    <svg width="48px" height="48px" viewBox="0 -25 1074 1074" fill="#ff0a0a" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ff0a0a"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M693.922034 387.165572l109.167529 40.204555 28.329188-76.832192-109.167528-40.204555-28.329189 76.832192z m-272.274975 52.795305l109.167528 40.204555 28.329188-76.832192-109.167528-40.204555-28.329188 76.832192zM376.864049 0L171.548973 557.426855c30.904569-24.752271 66.673746-43.781473 108.022915-44.78301L427.799357 110.169065l530.528434 195.442784-76.402962 207.604303c29.330725 0.715384 57.230683 11.446137 80.266033 30.332262l106.449071-288.871874L376.864049 0z m268.554981 522.373061l109.167529 40.204555 28.329188-76.832192-109.167528-40.204555-28.329189 76.832192zM470.150063 304.753388l109.167528 40.204555 28.329188-76.832192-109.167528-40.204555-28.329188 76.832192zM83.556798 782.057287c39.918402 3.576918 81.410647-14.450748 114.604443-49.361465 3.719994-4.006148 7.726142-8.441526 12.018443-13.01998 10.158446-11.159983 31.476876-34.481487 49.504541-49.647618 1.859997 31.476876 14.021517 59.09068 23.607657 73.541428 19.029202 28.758418 47.930697 46.0707 80.981417 48.932234 41.778399 3.719994 88.993712-16.739975 123.618276-53.224535 3.576918-3.863071 7.583066-8.155372 11.73229-12.733827 11.589213-12.59075 36.05533-39.346095 56.372223-56.08607 2.003074 31.333799 14.021517 58.66145 23.607657 72.969121 19.029202 28.758418 47.930697 46.0707 81.124493 48.932235 41.921475 3.576918 89.279866-16.739975 123.904429-53.224536 3.576918-3.719994 7.296912-7.869219 11.30306-12.16152 10.587676-11.589213 36.05533-39.346095 57.087607-56.5153 2.003074 31.333799 14.021517 58.66145 23.607657 72.969121 20.316893 30.618416 50.219925 49.075311 84.129104 51.936845 3.290764 0.286153 6.581529 0.42923 9.729216 0.429231 36.627637 0 74.113735-17.598435 104.159844-49.218388l-62.238368-59.09068c-13.878441 14.736901-31.047646 23.46458-44.210703 22.319966-4.864608-0.42923-12.16152-2.289227-19.887663-14.021517-5.293838-7.869219-14.450748-33.766103-5.866145-50.792232l13.019981-25.610731-18.743049-21.747659c-15.309208-17.741512-35.19687-27.184575-57.659913-27.470728h-1.287691c-50.219925 0-95.432164 44.78301-144.793628 98.866005-3.719994 4.149225-7.296912 8.012296-10.4446 11.30306-16.167668 17.026128-38.058404 27.756881-54.082996 26.469191-5.150761-0.42923-11.159983-2.146151-17.026128-11.016906-5.293838-8.012296-14.450748-33.766103-5.866145-50.792232l12.59075-25.324577-18.886125-21.74766c-15.309208-17.741512-35.19687-27.184575-57.659914-27.470728h-1.144613c-54.226072 0-104.016767 54.512226-144.221322 98.436775-3.863071 4.292301-7.583066 8.298449-10.87383 11.732291-16.024591 17.026128-38.058404 27.613805-53.796842 26.469191-5.007685-0.42923-11.016907-2.146151-16.883052-11.016907-5.293838-7.869219-14.450748-33.766103-5.866145-50.792231l13.019981-25.610731-18.743049-21.74766c-15.738438-18.170742-35.912254-27.899958-58.66145-28.186111h-1.144614c-52.366075 0-99.009082 51.078385-136.495179 92.284476-4.006148 4.292301-7.726142 8.441526-11.016907 12.018444-14.164594 14.879978-31.763029 23.89381-44.639933 22.60612-4.864608-0.42923-12.018443-2.289227-19.601509-13.735364l-71.538354 47.501467c20.173816 30.475339 49.933771 48.789157 83.556798 51.650692z m884.357132 155.953611c-4.864608-0.42923-12.16152-2.289227-19.887662-14.021517-5.293838-7.869219-14.450748-33.766103-5.866145-50.792231l13.01998-25.610731-18.743048-21.74766c-15.309208-17.741512-35.19687-27.184575-57.659914-27.470728h-1.28769c-50.219925 0-95.432164 44.78301-144.936705 98.866006-3.719994 4.149225-7.296912 8.012296-10.4446 11.30306-16.167668 17.026128-38.344558 27.756881-54.082996 26.469191-5.150761-0.42923-11.159983-2.146151-17.026128-11.016907-5.293838-8.012296-14.450748-33.766103-5.866145-50.792231l13.01998-25.610731-18.886125-21.74766c-15.309208-17.741512-35.19687-27.184575-57.659914-27.470728h-1.144613c-50.076848 0-95.002934 44.639933-144.221322 98.436775-3.863071 4.292301-7.583066 8.298449-10.730753 11.732291-16.024591 16.883052-38.058404 27.756881-53.796842 26.469191-5.007685-0.42923-11.016907-2.146151-16.883052-11.016907-5.293838-7.869219-14.450748-33.766103-5.866145-50.792231l13.019981-25.610731-18.743049-21.74766c-15.738438-18.170742-35.912254-27.899958-58.661451-28.186111h-1.144613c-52.366075 0-99.009082 51.078385-136.49518 92.284476-4.006148 4.292301-7.726142 8.441526-11.016906 12.018444-14.164594 14.879978-31.763029 23.607657-44.639933 22.60612-5.007685-0.42923-12.16152-2.289227-19.744586-13.735364l-71.538354 47.501467c20.173816 30.475339 49.933771 48.789157 83.556798 51.650692 39.632248 3.290764 81.410647-14.450748 114.604443-49.361465 3.719994-4.006148 7.726142-8.441526 12.018443-13.01998 10.158446-11.159983 31.476876-34.481487 49.504541-49.647618 1.859997 31.476876 14.021517 59.09068 23.607657 73.541428 19.029202 28.758418 47.930697 46.0707 80.981417 48.932234 41.635322 3.576918 88.993712-16.739975 123.618276-53.224535 3.576918-3.863071 7.583066-8.155372 11.589213-12.59075 11.589213-12.59075 36.05533-39.346095 56.372223-56.08607 2.003074 31.333799 14.021517 58.66145 23.607657 72.969121 19.029202 28.758418 47.930697 46.0707 81.124493 48.932234 41.635322 3.576918 89.279866-16.739975 123.90443-53.224535 3.433841-3.719994 7.296912-7.869219 11.30306-12.16152 10.587676-11.589213 36.05533-39.489171 57.087606-56.658377 2.003074 31.333799 14.021517 58.66145 23.607657 72.969121 20.316893 30.618416 50.219925 49.075311 84.129104 51.936845 3.290764 0.286153 6.581529 0.42923 9.729216 0.429231 36.627637 0 74.113735-17.598435 104.159844-49.218388L1012.124633 915.690932c-13.878441 14.736901-30.904569 23.321503-44.210703 22.319966z"></path></g></svg>
+                </a>
+            </div>
+
+            <!-- Navigation links -->
+            <div class="flex space-x-4">
+                <a href="/" class="flex items-center text-white hover:text-gray-300">
+                    <svg viewBox="0 0 600 600" version="1.1" id="svg9724" sodipodi:docname="home.svg" inkscape:version="1.2.2 (1:1.2.2+202212051550+b0a8486541)" width="16px" height="16px" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <defs id="defs9728"></defs> <sodipodi:namedview id="namedview9726" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" showgrid="true" inkscape:zoom="0.84179692" inkscape:cx="153.83758" inkscape:cy="310.64499" inkscape:window-width="1920" inkscape:window-height="1009" inkscape:window-x="0" inkscape:window-y="1080" inkscape:window-maximized="1" inkscape:current-layer="svg9724" showguides="true"> <inkscape:grid type="xygrid" id="grid9972" originx="0" originy="0"></inkscape:grid> <sodipodi:guide position="300,720" orientation="1,0" id="guide1112" inkscape:locked="false"></sodipodi:guide> <sodipodi:guide position="-540,300" orientation="0,-1" id="guide399" inkscape:locked="false"></sodipodi:guide> <sodipodi:guide position="110,200" orientation="0,-1" id="guide401" inkscape:locked="false"></sodipodi:guide> </sodipodi:namedview> <path style="color:#ffffff;fill:#ffffff;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none" d="M 300,0 A 40.004,40.004 0 0 0 271.71484,11.714844 L 11.714844,271.71484 A 40.004,40.004 0 0 0 0,300 v 260 a 40.004,40.004 0 0 0 40,40 h 164.66602 a 40.004,40.004 0 0 0 40,-40 V 426.66602 H 355.33398 V 560 a 40.004,40.004 0 0 0 40,40 H 560 a 40.004,40.004 0 0 0 40,-40 V 300 a 40.004,40.004 0 0 0 -11.71484,-28.28516 l -260,-259.999996 A 40.004,40.004 0 0 0 300,0 Z m 0,96.568359 220,220.000001 V 520 H 435.33398 V 386.66602 a 40.004,40.004 0 0 0 -40,-40 H 204.66602 a 40.004,40.004 0 0 0 -40,40 V 520 H 80 V 316.56836 Z" id="path1011"></path> </g></svg>
+                    &nbsp; &nbsp; Home
+                </a>
+                <a href="/charts" class="flex items-center text-white hover:text-gray-300">
+                    <svg width="16px" height="16px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>chart_fill [#ffffff]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-61.000000, -2440.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M17.0081791,2288 L23,2288 C23,2283.582 18.9615127,2280 14.9669654,2280 L14.9669654,2286 C14.9669654,2287.105 15.9046854,2288 17.0081791,2288 M15.0109054,2290 L21.0027264,2290 C21.0027264,2294.943 16.5148525,2298.839 11.3998347,2297.844 C8.28508644,2297.238 5.76352847,2294.724 5.15835455,2291.605 C4.16471092,2286.483 7.97650766,2282 12.9696918,2282 L12.9696918,2288 C12.9696918,2289.105 13.9074117,2290 15.0109054,2290" id="chart_fill-[#ffffff]"> </path> </g> </g> </g> </g></svg>
+                    &nbsp; &nbsp; Charts
+                </a>
+                <a href="/about" class="flex items-center text-white hover:text-gray-300">
+                    <svg width="16px" height="16px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#ffffff" d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm23.744 191.488c-52.096 0-92.928 14.784-123.2 44.352-30.976 29.568-45.76 70.4-45.76 122.496h80.256c0-29.568 5.632-52.8 17.6-68.992 13.376-19.712 35.2-28.864 66.176-28.864 23.936 0 42.944 6.336 56.32 19.712 12.672 13.376 19.712 31.68 19.712 54.912 0 17.6-6.336 34.496-19.008 49.984l-8.448 9.856c-45.76 40.832-73.216 70.4-82.368 89.408-9.856 19.008-14.08 42.24-14.08 68.992v9.856h80.96v-9.856c0-16.896 3.52-31.68 10.56-45.76 6.336-12.672 15.488-24.64 28.16-35.2 33.792-29.568 54.208-48.576 60.544-55.616 16.896-22.528 26.048-51.392 26.048-86.592 0-42.944-14.08-76.736-42.24-101.376-28.16-25.344-65.472-37.312-111.232-37.312zm-12.672 406.208a54.272 54.272 0 0 0-38.72 14.784 49.408 49.408 0 0 0-15.488 38.016c0 15.488 4.928 28.16 15.488 38.016A54.848 54.848 0 0 0 523.072 768c15.488 0 28.16-4.928 38.72-14.784a51.52 51.52 0 0 0 16.192-38.72 51.968 51.968 0 0 0-15.488-38.016 55.936 55.936 0 0 0-39.424-14.784z"></path></g></svg>
+                    &nbsp; &nbsp;About
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="body">
+    <h1 class="mt-5">Earthquake Data Analysis</h1>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h6>Magnitude for the last 7 days</h6>
+            <canvas id="magnitude_chart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h6>Depth for the last 7 days</h6>
+            <canvas id="depth_chart"></canvas>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <h6>Time of Day for the last 7 days</h6>
+            <canvas id="time_of_day_chart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sample earthquake data
+    let earthquake_data = [
+        {{ range . }}
+            {
+                mag: '{{ .Magnitude }}',
+                depth: '{{ .Depth }}',
+                time: '{{ .Time }}'
+            },
+        {{ end }}
+    ];
+
+    // Extract relevant data for charts
+    let magnitudes = earthquake_data.map(entry => entry.mag);
+    let depths = earthquake_data.map(entry => entry.depth);
+    let times = earthquake_data.map(entry => entry.time);
+
+    // Magnitude Distribution Chart
+    let magnitude_ctx = document.getElementById('magnitude_chart').getContext('2d');
+    let magnitude_chart = new Chart(magnitude_ctx, {
+        type: 'bar',
+        data: {
+            labels: times,
+            datasets: [{
+                label: 'Magnitude',
+                data: magnitudes,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    precision: 1
+                }
+            }
+        }
+    });
+
+    // Depth Distribution Chart
+    let depth_ctx = document.getElementById('depth_chart').getContext('2d');
+    let depth_chart = new Chart(depth_ctx, {
+        type: 'line',
+        data: {
+            labels: times,
+            datasets: [{
+                label: 'Depth',
+                data: depths,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    precision: 0
+                }
+            }
+        }
+    });
+
+    // Time of Day Chart
+    let time_labels = ['Morning', 'Noon', 'Night'];
+    let time_data = [0, 0, 0]; // Initialize counters
+
+    // Count earthquakes during different times of the day
+    for (let i = 0; i < earthquake_data.length; i++) {
+        let hour = new Date(earthquake_data[i].time).getHours();
+        if (hour >= 6 && hour < 12) {
+            time_data[0]++; // Morning
+        } else if (hour >= 12 && hour < 18) {
+            time_data[1]++; // Noon
+        } else {
+            time_data[2]++; // Night
+        }
+    }
+
+    let time_of_day_ctx = document.getElementById('time_of_day_chart').getContext('2d');
+    let time_of_day_chart = new Chart(time_of_day_ctx, {
+        type: 'pie',
+        data: {
+            labels: time_labels,
+            datasets: [{
+                data: time_data,
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
+
+</script>
+</body>
+</html>
